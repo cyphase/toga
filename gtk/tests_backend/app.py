@@ -24,21 +24,13 @@ class AppProbe(BaseProbe, DialogsMixin):
         assert isinstance(self.app._impl.native, Gtk.Application)
         assert IS_WAYLAND is (os.environ.get("WAYLAND_DISPLAY", "") != "")
 
-    @property
-    def config_path(self):
-        return Path.home() / ".config/testbed"
-
-    @property
-    def data_path(self):
-        return Path.home() / ".local/share/testbed"
-
-    @property
-    def cache_path(self):
-        return Path.home() / ".cache/testbed"
-
-    @property
-    def logs_path(self):
-        return Path.home() / ".local/state/testbed/log"
+    def paths(self):
+        return {
+            "config": Path.home() / ".config/testbed",
+            "data": Path.home() / ".local/share/testbed",
+            "cache": Path.home() / ".cache/testbed",
+            "logs": Path.home() / ".local/state/testbed/log",
+        }
 
     @property
     def is_cursor_visible(self):

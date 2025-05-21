@@ -27,35 +27,27 @@ class AppProbe(BaseProbe, DialogsMixin):
         # The Winforms Application class is a singleton instance
         assert self.app._impl.native == Application
 
-    @property
-    def config_path(self):
-        return (
-            Path.home()
-            / "AppData"
-            / "Local"
-            / "Tiberius Yak"
-            / "Toga Testbed"
-            / "Config"
-        )
-
-    @property
-    def data_path(self):
-        return Path.home() / "AppData/Local/Tiberius Yak/Toga Testbed/Data"
-
-    @property
-    def cache_path(self):
-        return (
-            Path.home()
-            / "AppData"
-            / "Local"
-            / "Tiberius Yak"
-            / "Toga Testbed"
-            / "Cache"
-        )
-
-    @property
-    def logs_path(self):
-        return Path.home() / "AppData/Local/Tiberius Yak/Toga Testbed/Logs"
+    def paths(self):
+        return {
+            "config": (
+                Path.home()
+                / "AppData"
+                / "Local"
+                / "Tiberius Yak"
+                / "Toga Testbed"
+                / "Config"
+            ),
+            "data": Path.home() / "AppData/Local/Tiberius Yak/Toga Testbed/Data",
+            "cache": (
+                Path.home()
+                / "AppData"
+                / "Local"
+                / "Tiberius Yak"
+                / "Toga Testbed"
+                / "Cache"
+            ),
+            "logs": Path.home() / "AppData/Local/Tiberius Yak/Toga Testbed/Logs",
+        }
 
     @property
     def is_cursor_visible(self):

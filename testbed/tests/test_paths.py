@@ -8,7 +8,8 @@ import pytest
 async def test_app_paths(app, app_probe, attr):
     """Platform paths are as expected."""
     path = getattr(app.paths, attr)
-    assert path == getattr(app_probe, f"{attr}_path")
+    expected_paths = app_probe.paths()
+    assert path == expected_paths[attr]
 
     try:
         # We can create a folder in the app path
