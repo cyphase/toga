@@ -49,6 +49,12 @@ class AppProbe(BaseProbe, DialogsMixin):
             "logs": Path.home() / "AppData/Local/Tiberius Yak/Toga Testbed/Logs",
         }
 
+    def apply_path_customization(self):
+        pytest.xfail("This backend doesn't implement app path customization.")
+
+    def remove_path_customization(self):
+        pytest.xfail("This backend doesn't implement app path customization.")
+
     @property
     def is_cursor_visible(self):
         # Despite what the documentation says, Cursor.Current never returns null in

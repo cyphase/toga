@@ -31,6 +31,12 @@ class AppProbe(BaseProbe, DialogsMixin):
             "logs": Path(self.get_app_context().getFilesDir().getPath()) / "log",
         }
 
+    def apply_path_customization(self):
+        pytest.xfail("This backend doesn't implement app path customization.")
+
+    def remove_path_customization(self):
+        pytest.xfail("This backend doesn't implement app path customization.")
+
     def assert_app_icon(self, icon):
         pytest.xfail("Android apps don't have app icons at runtime")
 

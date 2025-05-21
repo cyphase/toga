@@ -38,6 +38,12 @@ class AppProbe(BaseProbe, DialogsMixin):
             "logs": self.get_path(NSSearchPathDirectory.ApplicationSupport) / "Logs",
         }
 
+    def apply_path_customization(self):
+        pytest.xfail("This backend doesn't implement app path customization.")
+
+    def remove_path_customization(self):
+        pytest.xfail("This backend doesn't implement app path customization.")
+
     def assert_app_icon(self, icon):
         pytest.xfail("iOS apps don't have app icons at runtime")
 

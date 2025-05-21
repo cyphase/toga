@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import PIL.Image
+import pytest
 from rubicon.objc import SEL, NSPoint, ObjCClass, objc_id, send_message
 
 import toga
@@ -41,6 +42,12 @@ class AppProbe(BaseProbe, DialogsMixin):
             "cache": Path.home() / "Library/Caches/org.beeware.toga.testbed",
             "logs": Path.home() / "Library/Logs/org.beeware.toga.testbed",
         }
+
+    def apply_path_customization(self):
+        pytest.xfail("This backend doesn't implement app path customization.")
+
+    def remove_path_customization(self):
+        pytest.xfail("This backend doesn't implement app path customization.")
 
     @property
     def is_cursor_visible(self):

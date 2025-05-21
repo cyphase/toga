@@ -24,7 +24,19 @@ class AppProbe(BaseProbe, DialogsMixin):
         assert isinstance(self.app._impl.native, Gtk.Application)
         assert IS_WAYLAND is (os.environ.get("WAYLAND_DISPLAY", "") != "")
 
-    def paths(self):
+    @property
+    def _custom_path_root(self):
+        return Path.home() / ".cache/testbed/custom_app_paths"
+
+    def paths(self, *, custom):
+        if custom:
+            return {
+                "config": self._custom_path_root / "config/testbed",
+                "data": self._custom_path_root / "data/testbed",
+                "cache": self._custom_path_root / "cache/testbed",
+                "logs": self._custom_path_root / "state/testbed/log",
+            }
+
         return {
             "config": Path.home() / ".config/testbed",
             "data": Path.home() / ".local/share/testbed",
@@ -35,6 +47,19 @@ class AppProbe(BaseProbe, DialogsMixin):
     @property
     def is_cursor_visible(self):
         pytest.skip("Cursor visibility not implemented on GTK")
+
+    def apply_path_customization(self):
+        root = Path.home() / ".cache/testbed/custom_app_paths"
+        os.environ["XDG_CONFIG_HOME"] = str(root / "config")
+        os.environ["XDG_DATA_HOME"] = str(root / "data")
+        os.environ["XDG_CACHE_HOME"] = str(root / "cache")
+        os.environ["XDG_STATE_HOME"] = str(root / "state")
+
+    def remove_path_customization(self):
+        del os.environ["XDG_CONFIG_HOME"]
+        del os.environ["XDG_DATA_HOME"]
+        del os.environ["XDG_CACHE_HOME"]
+        del os.environ["XDG_STATE_HOME"]
 
     def unhide(self):
         pytest.xfail("This platform doesn't have an app level unhide.")
