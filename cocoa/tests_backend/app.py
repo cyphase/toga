@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import PIL.Image
+import pytest
 from rubicon.objc import SEL, NSPoint, ObjCClass, objc_id, send_message
 
 import toga
@@ -33,21 +34,20 @@ class AppProbe(BaseProbe, DialogsMixin):
         NSWindow.allowsAutomaticWindowTabbing = False
         assert isinstance(self.app._impl.native, NSApplication)
 
-    @property
-    def config_path(self):
-        return Path.home() / "Library/Preferences/org.beeware.toga.testbed"
+    def paths(self):
+        return {
+            "config": Path.home() / "Library/Preferences/org.beeware.toga.testbed",
+            "data": Path.home()
+            / "Library/Application Support/org.beeware.toga.testbed",
+            "cache": Path.home() / "Library/Caches/org.beeware.toga.testbed",
+            "logs": Path.home() / "Library/Logs/org.beeware.toga.testbed",
+        }
 
-    @property
-    def data_path(self):
-        return Path.home() / "Library/Application Support/org.beeware.toga.testbed"
+    def apply_path_customization(self):
+        pytest.xfail("This backend doesn't implement app path customization.")
 
-    @property
-    def cache_path(self):
-        return Path.home() / "Library/Caches/org.beeware.toga.testbed"
-
-    @property
-    def logs_path(self):
-        return Path.home() / "Library/Logs/org.beeware.toga.testbed"
+    def remove_path_customization(self):
+        pytest.xfail("This backend doesn't implement app path customization.")
 
     @property
     def is_cursor_visible(self):

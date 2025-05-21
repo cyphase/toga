@@ -29,21 +29,20 @@ class AppProbe(BaseProbe, DialogsMixin):
         )
         return Path(urls[0].path)
 
-    @property
-    def config_path(self):
-        return self.get_path(NSSearchPathDirectory.ApplicationSupport) / "Config"
+    def paths(self):
+        return {
+            "config": self.get_path(NSSearchPathDirectory.ApplicationSupport)
+            / "Config",
+            "data": self.get_path(NSSearchPathDirectory.Documents),
+            "cache": self.get_path(NSSearchPathDirectory.Cache),
+            "logs": self.get_path(NSSearchPathDirectory.ApplicationSupport) / "Logs",
+        }
 
-    @property
-    def data_path(self):
-        return self.get_path(NSSearchPathDirectory.Documents)
+    def apply_path_customization(self):
+        pytest.xfail("This backend doesn't implement app path customization.")
 
-    @property
-    def cache_path(self):
-        return self.get_path(NSSearchPathDirectory.Cache)
-
-    @property
-    def logs_path(self):
-        return self.get_path(NSSearchPathDirectory.ApplicationSupport) / "Logs"
+    def remove_path_customization(self):
+        pytest.xfail("This backend doesn't implement app path customization.")
 
     def assert_app_icon(self, icon):
         pytest.xfail("iOS apps don't have app icons at runtime")
