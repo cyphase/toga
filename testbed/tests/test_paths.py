@@ -20,7 +20,7 @@ async def test_app_paths(app, app_probe, attr):
         with tempfile.open("w", encoding="utf-8") as f:
             f.write(f"Hello {attr}\n")
 
-        # We can create a file in the app path
+        # We can read a file in the app path
         with tempfile.open("r", encoding="utf-8") as f:
             assert f.read() == f"Hello {attr}\n"
 
